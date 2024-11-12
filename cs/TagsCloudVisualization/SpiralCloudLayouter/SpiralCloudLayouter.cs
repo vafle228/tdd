@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace TagsCloudVisualization;
+namespace TagsCloudVisualization.SpiralCloudLayouter;
 
 public class SpiralCloudLayouter : ICloudLayouter
 {

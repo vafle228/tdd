@@ -1,9 +1,8 @@
 ﻿using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
-using TagsCloudVisualization;
 
-namespace TagsCloudVisualizationTests;
+namespace TagsCloudVisualizationTests.SpiralCloudLayouter;
 
 [TestFixture]
 public class SpiralCloudLayouterTest
@@ -19,9 +18,9 @@ public class SpiralCloudLayouterTest
     }
     
     [TestCaseSource(nameof(InitCenterAtGivenPointTestCases))]
-    public void CircularCloudLayouter_InitCenterAtGivenPoint(Point center)
+    public void SpiralCloudLayouter_InitCenterAtGivenPoint(Point center)
     {
-        var layouter = new SpiralCloudLayouter(center);
+        var layouter = new TagsCloudVisualization.SpiralCloudLayouter.SpiralCloudLayouter(center);
         
         layouter.Center.Should().BeEquivalentTo(center);
     }
