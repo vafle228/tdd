@@ -6,7 +6,7 @@ using TagsCloudVisualization;
 namespace TagsCloudVisualizationTests;
 
 [TestFixture]
-public class CircularCloudLayouterTest
+public class SpiralCloudLayouterTest
 {
     public static IEnumerable<TestCaseData> InitCenterAtGivenPointTestCases
     {
@@ -21,7 +21,7 @@ public class CircularCloudLayouterTest
     [TestCaseSource(nameof(InitCenterAtGivenPointTestCases))]
     public void CircularCloudLayouter_InitCenterAtGivenPoint(Point center)
     {
-        var layouter = new CircularCloudLayouter(center);
+        var layouter = new SpiralCloudLayouter(center);
         
         layouter.Center.Should().BeEquivalentTo(center);
     }

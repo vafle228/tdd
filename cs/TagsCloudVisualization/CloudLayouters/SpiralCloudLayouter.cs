@@ -2,11 +2,11 @@
 
 namespace TagsCloudVisualization;
 
-public class CircularCloudLayouter
+public class SpiralCloudLayouter : ICloudLayouter
 {
     public Point Center { get; private set; }
     
-    public CircularCloudLayouter(Point center)
+    public SpiralCloudLayouter(Point center)
     {
         Center = center;
     }
