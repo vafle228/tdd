@@ -26,7 +26,7 @@ public class SquareFibonacciSpiralTest
         var squareSpiral = new SquareFibonacciSpiral(center, step);
 
         squareSpiral.Step.Should().Be(step);
-        squareSpiral.Center.Should().Be(center);
+        squareSpiral.Center.Should().BeEquivalentTo(center);
     }
 
     public static IEnumerable<TestCaseData> InitCenterAtGivenPointTestCases
@@ -47,5 +47,23 @@ public class SquareFibonacciSpiralTest
         squareSpiralCtor.Should()
             .Throw<ArgumentException>()
             .WithMessage(NOT_POSITIVE_STEP_ERROR);
+    }
+    
+    [Test]
+    public void SquareFibonacciSpiral_CalculateFiveFirstPoints()
+    {
+        var squareSpiral = new SquareFibonacciSpiral(new Point(0, 0), 5);
+        var expected = new[]
+        {
+            new Point(0, 5), new Point(-5, 5), new Point(-5, 0), new Point(-5, -5), new Point(0, -5)
+        };
+        
+        var expectedAndReceived = expected.Zip(squareSpiral);
+        
+        squareSpiral.Current.Should().BeEquivalentTo(new Point(0, 0));
+        foreach (var (expectedPoint, receivedPoint) in expectedAndReceived)
+        {
+            expectedPoint.Should().BeEquivalentTo(receivedPoint);
+        }
     }
 }
