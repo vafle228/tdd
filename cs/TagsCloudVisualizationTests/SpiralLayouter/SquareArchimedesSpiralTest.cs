@@ -6,7 +6,7 @@ using TagsCloudVisualization.SpiralLayouter;
 namespace TagsCloudVisualizationTests.SpiralLayouter;
 
 [TestFixture]
-public class SquareFibonacciSpiralTest
+public class SquareArchimedesSpiralTest
 {
     private const string NOT_POSITIVE_STEP_ERROR = "Step should be positive number";
     
@@ -21,9 +21,9 @@ public class SquareFibonacciSpiralTest
     }
 
     [TestCaseSource(nameof(InitCenterAtGivenPointAndStepTestCases))]
-    public void SquareFibonacciSpiral_InitCenterAtGivenPointAndStep(Point center, int step)
+    public void SquareArchimedesSpiral_InitCenterAtGivenPointAndStep(Point center, int step)
     {
-        var squareSpiral = new SquareFibonacciSpiral(center, step);
+        var squareSpiral = new SquareArchimedesSpiral(center, step);
 
         squareSpiral.Step.Should().Be(step);
         squareSpiral.Center.Should().BeEquivalentTo(center);
@@ -40,9 +40,9 @@ public class SquareFibonacciSpiralTest
     }
 
     [TestCaseSource(nameof(InitCenterAtGivenPointTestCases))]
-    public void SquareFibonacciSpiral_ThrowError_OnNotPositiveNumber(Point center, int step)
+    public void SquareArchimedesSpiral_ThrowError_OnNotPositiveNumber(Point center, int step)
     {
-        var squareSpiralCtor = () => new SquareFibonacciSpiral(center, step);
+        var squareSpiralCtor = () => new SquareArchimedesSpiral(center, step);
 
         squareSpiralCtor.Should()
             .Throw<ArgumentException>()
@@ -50,9 +50,9 @@ public class SquareFibonacciSpiralTest
     }
     
     [Test]
-    public void SquareFibonacciSpiral_CalculateFiveFirstPoints()
+    public void SquareArchimedesSpiral_CalculateFiveFirstPoints()
     {
-        var squareSpiral = new SquareFibonacciSpiral(new Point(0, 0), 5);
+        var squareSpiral = new SquareArchimedesSpiral(new Point(0, 0), 5);
         var expected = new[]
         {
             new Point(0, 5), new Point(-5, 5), new Point(-5, 0), new Point(-5, -5), new Point(0, -5)

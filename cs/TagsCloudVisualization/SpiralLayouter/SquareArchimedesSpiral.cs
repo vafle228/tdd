@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace TagsCloudVisualization.SpiralLayouter;
 
-public class SquareFibonacciSpiral : IEnumerable<Point>, IEnumerator<Point>
+public class SquareArchimedesSpiral : IEnumerable<Point>, IEnumerator<Point>
 {
     private int neededPoints = 1;
     private int pointsToPlace = 1;
@@ -15,7 +15,7 @@ public class SquareFibonacciSpiral : IEnumerable<Point>, IEnumerator<Point>
     object? IEnumerator.Current => Current;
     public Point Current { get; private set; }
 
-    public SquareFibonacciSpiral(Point center, int step)
+    public SquareArchimedesSpiral(Point center, int step)
     {
         if (step <= 0)
             throw new ArgumentException("Step should be positive number");
