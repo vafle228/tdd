@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using TagsCloudVisualization.SpiralLayouter;
+using TagsCloudVisualization.SpiralLayouter.PointGenerators;
 
 namespace TagsCloudVisualizationTests.SpiralLayouter;
 
