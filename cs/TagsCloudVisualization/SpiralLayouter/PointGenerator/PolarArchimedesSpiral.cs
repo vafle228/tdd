@@ -14,6 +14,13 @@ public class PolarArchimedesSpiral : IPointGenerator<Point>
 
     public PolarArchimedesSpiral(Point center, double radius, double angle)
     {
+        if (radius <= 0 || angle <= 0)
+        {
+            var argName = radius <= 0 ? nameof(radius) : nameof(angle);
+            throw new ArgumentException("Spiral params should be positive.", argName);
+        }
+            
+        
         Angle = angle;
         Radius = radius;
         
@@ -23,6 +30,8 @@ public class PolarArchimedesSpiral : IPointGenerator<Point>
     
     public IEnumerator<Point> GetEnumerator() => this;
     IEnumerator IEnumerable.GetEnumerator() => this;
+    
+    public double Step => Radius / (2 * Math.PI);
 
     public bool MoveNext()
     {

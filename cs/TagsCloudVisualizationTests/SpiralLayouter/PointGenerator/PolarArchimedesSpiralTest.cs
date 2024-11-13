@@ -8,6 +8,8 @@ namespace TagsCloudVisualizationTests.SpiralLayouter.PointGenerator;
 [TestFixture]
 public class PolarArchimedesSpiralTest
 {
+    private const string NOT_POSITIVE_ARGUMENT_ERROR = "Spiral params should be positive.";
+    
     public static IEnumerable<TestCaseData> InitAtGivenPointAngleAndRadiusTestCases
     {
         get
@@ -21,10 +23,31 @@ public class PolarArchimedesSpiralTest
     [TestCaseSource(nameof(InitAtGivenPointAngleAndRadiusTestCases))]
     public void PolarArchimedesSpiral_InitAtGivenPointAngleAndRadius(Point center, double radius, double angle)
     {
-        var squareSpiral = new PolarArchimedesSpiral(center, radius, angle);
+        var polarSpiral = new PolarArchimedesSpiral(center, radius, angle);
 
-        squareSpiral.Angle.Should().Be(angle);
-        squareSpiral.Radius.Should().Be(radius);
-        squareSpiral.Center.Should().BeEquivalentTo(center);
+        polarSpiral.Angle.Should().Be(angle);
+        polarSpiral.Radius.Should().Be(radius);
+        polarSpiral.Center.Should().BeEquivalentTo(center);
+    }
+    
+    public static IEnumerable<TestCaseData> ThrowErrorOnNotPositiveNumberTestCases
+    {
+        get
+        {
+            yield return new TestCaseData(new Point(0, 0), 0.0000, 11);
+            yield return new TestCaseData(new Point(0, 0), -10, -100);
+            yield return new TestCaseData(new Point(0, 0), 52, double.MinValue);
+        }
+    }
+
+    [TestCaseSource(nameof(ThrowErrorOnNotPositiveNumberTestCases))]
+    public void PolarArchimedesSpiral_ThrowError_OnNotPositiveNumber(Point center, double radius, double angle)
+    {
+        var negativeParameter = radius <= 0 ? nameof(radius) : nameof(angle);
+        var polarSpiralCtor = () => new PolarArchimedesSpiral(center, radius, angle);
+
+        polarSpiralCtor.Should()
+            .Throw<ArgumentException>()
+            .WithMessage($"{NOT_POSITIVE_ARGUMENT_ERROR} (Parameter '{negativeParameter}')");
     }
 }
