@@ -1,10 +1,9 @@
 ﻿using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
-using TagsCloudVisualization.SpiralLayouter;
-using TagsCloudVisualization.SpiralLayouter.PointGenerators;
+using TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
-namespace TagsCloudVisualizationTests.SpiralLayouter;
+namespace TagsCloudVisualizationTests.SpiralLayouter.PointGenerator;
 
 [TestFixture]
 public class SquareArchimedesSpiralTest

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Drawing;
 
-namespace TagsCloudVisualization.SpiralLayouter.PointGenerators;
+namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
 public class SquareArchimedesSpiral : IEnumerable<Point>, IEnumerator<Point>
 {

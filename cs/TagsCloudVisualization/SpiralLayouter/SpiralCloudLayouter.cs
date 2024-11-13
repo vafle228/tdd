@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using TagsCloudVisualization.SpiralLayouter.PointGenerators;
+using TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
 namespace TagsCloudVisualization.SpiralLayouter;
 
