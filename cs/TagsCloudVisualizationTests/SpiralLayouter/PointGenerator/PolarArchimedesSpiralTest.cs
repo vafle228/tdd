@@ -21,13 +21,13 @@ public class PolarArchimedesSpiralTest
     }
 
     [TestCaseSource(nameof(InitAtGivenPointAngleAndRadiusTestCases))]
-    public void PolarArchimedesSpiral_InitAtGivenPointAngleAndRadius(Point center, double radius, double angle)
+    public void PolarArchimedesSpiral_InitAtGivenPointAngleAndRadius(Point center, double radius, double angleOffset)
     {
-        var polarSpiral = new PolarArchimedesSpiral(center, radius, angle);
+        var polarSpiral = new PolarArchimedesSpiral(center, radius, angleOffset);
 
-        polarSpiral.Angle.Should().Be(angle);
         polarSpiral.Radius.Should().Be(radius);
         polarSpiral.Center.Should().BeEquivalentTo(center);
+        polarSpiral.AngleOffset.Should().Be(angleOffset * Math.PI / 180);
     }
     
     public static IEnumerable<TestCaseData> ThrowErrorOnNotPositiveNumberTestCases
@@ -41,13 +41,32 @@ public class PolarArchimedesSpiralTest
     }
 
     [TestCaseSource(nameof(ThrowErrorOnNotPositiveNumberTestCases))]
-    public void PolarArchimedesSpiral_ThrowError_OnNotPositiveNumber(Point center, double radius, double angle)
+    public void PolarArchimedesSpiral_ThrowError_OnNotPositiveNumber(Point center, double radius, double angleOffset)
     {
-        var negativeParameter = radius <= 0 ? nameof(radius) : nameof(angle);
-        var polarSpiralCtor = () => new PolarArchimedesSpiral(center, radius, angle);
+        var negativeParameter = radius <= 0 ? nameof(radius) : nameof(angleOffset);
+        var polarSpiralCtor = () => new PolarArchimedesSpiral(center, radius, angleOffset);
 
         polarSpiralCtor.Should()
             .Throw<ArgumentException>()
             .WithMessage($"{NOT_POSITIVE_ARGUMENT_ERROR} (Parameter '{negativeParameter}')");
+    }
+    
+        
+    [Test]
+    public void PolarArchimedesSpiral_CalculateSpecialPoints()
+    {
+        var polarSpiral = new PolarArchimedesSpiral(new Point(0, 0), 2, 360);
+        var expected = new[]
+        {
+            new Point(2, 0), new Point(4, 0), new Point(6, 0), new Point(8, 0)
+        };
+        
+        var expectedAndReceived = expected.Zip(polarSpiral);
+        
+        polarSpiral.Current.Should().BeEquivalentTo(new Point(0, 0));
+        foreach (var (expectedPoint, receivedPoint) in expectedAndReceived)
+        {
+            expectedPoint.Should().BeEquivalentTo(receivedPoint);
+        }
     }
 }
