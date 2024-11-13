@@ -10,7 +10,7 @@ public class SquareArchimedesSpiralTest
 {
     private const string NOT_POSITIVE_STEP_ERROR = "Step should be positive number";
     
-    public static IEnumerable<TestCaseData> InitCenterAtGivenPointAndStepTestCases
+    public static IEnumerable<TestCaseData> InitAtGivenPointAndStepTestCases
     {
         get
         {
@@ -20,8 +20,8 @@ public class SquareArchimedesSpiralTest
         }
     }
 
-    [TestCaseSource(nameof(InitCenterAtGivenPointAndStepTestCases))]
-    public void SquareArchimedesSpiral_InitCenterAtGivenPointAndStep(Point center, int step)
+    [TestCaseSource(nameof(InitAtGivenPointAndStepTestCases))]
+    public void SquareArchimedesSpiral_InitAtGivenPointAndStep(Point center, int step)
     {
         var squareSpiral = new SquareArchimedesSpiral(center, step);
 
@@ -29,7 +29,7 @@ public class SquareArchimedesSpiralTest
         squareSpiral.Center.Should().BeEquivalentTo(center);
     }
 
-    public static IEnumerable<TestCaseData> InitCenterAtGivenPointTestCases
+    public static IEnumerable<TestCaseData> ThrowErrorOnNotPositiveNumberTestCases
     {
         get
         {
@@ -39,7 +39,7 @@ public class SquareArchimedesSpiralTest
         }
     }
 
-    [TestCaseSource(nameof(InitCenterAtGivenPointTestCases))]
+    [TestCaseSource(nameof(ThrowErrorOnNotPositiveNumberTestCases))]
     public void SquareArchimedesSpiral_ThrowError_OnNotPositiveNumber(Point center, int step)
     {
         var squareSpiralCtor = () => new SquareArchimedesSpiral(center, step);

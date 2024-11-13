@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
-public class SquareArchimedesSpiral : IEnumerable<Point>, IEnumerator<Point>
+public class SquareArchimedesSpiral : IPointGenerator<Point>
 {
     private int neededPoints = 1;
     private int pointsToPlace = 1;
@@ -22,7 +22,7 @@ public class SquareArchimedesSpiral : IEnumerable<Point>, IEnumerator<Point>
         
         Step = step;
         Center = center;
-        Current = Center;
+        Current = center;
     }
 
     public IEnumerator<Point> GetEnumerator() => this;
