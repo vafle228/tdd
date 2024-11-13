@@ -4,7 +4,7 @@ namespace TagsCloudVisualization.SpiralLayouter;
 
 public class SpiralCloudLayouter : ICloudLayouter
 {
-    private const int STEP = 1;
+    private const int STEP = 5;
     private List<Rectangle> placedRectangles;
     private SquareFibonacciSpiral squareFibonacciSpiral;
     
