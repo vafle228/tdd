@@ -9,7 +9,7 @@ internal class Program
     private const int IMAGE_WIDTH = 1920;
     private const int IMAGE_HEIGHT = 1080;
 
-    private const int RECTANGLE_COUNT = 600;
+    private const int RECTANGLE_COUNT = 400;
     private const int MAX_RECT_WIDTH = 75;
     private const int MAX_RECT_HEIGHT = 75;
 

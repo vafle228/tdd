@@ -5,9 +5,8 @@ namespace TagsCloudVisualization.SpiralLayouter;
 
 public class SpiralCloudLayouter : ICloudLayouter
 {
-    private const int STEP = 5;
     private List<Rectangle> placedRectangles;
-    private SquareArchimedesSpiral squareArchimedesSpiral;
+    private IPointGenerator<Point> pointGenerator;
     
     public Point Center { get; private set; }
 
@@ -15,12 +14,12 @@ public class SpiralCloudLayouter : ICloudLayouter
     {
         Center = center;
         placedRectangles = [];
-        squareArchimedesSpiral = new SquareArchimedesSpiral(center, STEP);
+        pointGenerator = new PolarArchimedesSpiral(center, 3, 0.5);
     }
 
     public Rectangle PutNextRectangle(Size rectangleSize)
     {
-        using var spiralEnumerator = squareArchimedesSpiral.GetEnumerator();
+        using var spiralEnumerator = pointGenerator.GetEnumerator();
         do
         {
             var rectangleCenter = spiralEnumerator.Current;
@@ -30,7 +29,7 @@ public class SpiralCloudLayouter : ICloudLayouter
             if (!placedRectangles.Any(r => r.IntersectsWith(rect)))
             {
                 placedRectangles.Add(rect);
-                squareArchimedesSpiral.Reset();
+                pointGenerator.Reset();
                 return rect;
             }
         } while(spiralEnumerator.MoveNext());
