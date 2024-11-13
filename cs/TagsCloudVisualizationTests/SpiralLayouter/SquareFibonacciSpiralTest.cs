@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
-using TagsCloudVisualization.SpiralCloudLayouter;
+using TagsCloudVisualization.SpiralLayouter;
 
-namespace TagsCloudVisualizationTests.SpiralCloudLayouter;
+namespace TagsCloudVisualizationTests.SpiralLayouter;
 
 [TestFixture]
 public class SquareFibonacciSpiralTest

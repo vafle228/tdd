@@ -1,4 +1,4 @@
-﻿namespace TagsCloudVisualization.SpiralCloudLayouter;
+﻿namespace TagsCloudVisualization.SpiralLayouter;
 
 public enum Direction
 {

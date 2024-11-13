@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
+using TagsCloudVisualization.SpiralLayouter;
 
-namespace TagsCloudVisualizationTests.SpiralCloudLayouter;
+namespace TagsCloudVisualizationTests.SpiralLayouter;
 
 [TestFixture]
 public class SpiralCloudLayouterTest
@@ -20,8 +21,19 @@ public class SpiralCloudLayouterTest
     [TestCaseSource(nameof(InitCenterAtGivenPointTestCases))]
     public void SpiralCloudLayouter_InitCenterAtGivenPoint(Point center)
     {
-        var layouter = new TagsCloudVisualization.SpiralCloudLayouter.SpiralCloudLayouter(center);
+        var layouter = new SpiralCloudLayouter(center);
         
         layouter.Center.Should().BeEquivalentTo(center);
+    }
+    
+    [Test]
+    public void SpiralCloudLayouter_PutNextRectangle_ShouldPutFirstRectAtCenter()
+    {
+        var squareSize = new Size(100, 100);
+        var layouter = new SpiralCloudLayouter(new Point(0, 0));
+        
+        var rect = layouter.PutNextRectangle(squareSize);
+        
+        rect.Location.Should().BeEquivalentTo(new Point(-50, -50));
     }
 }
