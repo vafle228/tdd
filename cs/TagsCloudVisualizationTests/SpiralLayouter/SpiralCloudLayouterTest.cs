@@ -36,4 +36,31 @@ public class SpiralCloudLayouterTest
         
         rect.Location.Should().BeEquivalentTo(new Point(-50, -50));
     }
+
+    [Test]
+    public void SpiralCloudLayouter_PutNextRectangle_AllRectsShouldNotIntersect()
+    {
+        var random = new Random();
+        var layouter = new SpiralCloudLayouter(new Point(0, 0));
+        var rectangleSizes = new Size[100];
+        for (var i = 0; i < rectangleSizes.Length; i++)
+        {
+            var width = random.Next(1, 100);
+            var height = random.Next(1, 100);
+            rectangleSizes[i] = new Size(width, height);
+        }
+        
+        var rectangles = rectangleSizes
+            .Select(rs => layouter.PutNextRectangle(rs))
+            .ToArray();
+        
+        for (var i = 0; i < rectangles.Length; i++)
+        {
+            for (var j = i + 1; j < rectangles.Length; j++)
+            {
+                var isIntersect = rectangles[i].IntersectsWith(rectangles[j]);
+                isIntersect.Should().BeFalse($"Rect {rectangles[i]} should not intersect {rectangles[j]}");
+            }
+        }
+    }
 }
