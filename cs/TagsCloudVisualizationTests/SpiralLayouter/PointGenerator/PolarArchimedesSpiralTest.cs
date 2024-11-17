@@ -63,4 +63,23 @@ public class PolarArchimedesSpiralTest
             expectedPoint.Should().BeEquivalentTo(receivedPoint);
         }
     }
+
+    [TestCase(1)]
+    [TestCase(10)]
+    [TestCase(100)]
+    public void PolarArchimedesSpiral_GenerateCircleLikeShape(int radius)
+    {
+        var polarSpiral = new PolarArchimedesSpiral(radius, 5);
+        var pointGenerator = polarSpiral.StartFrom(new Point(0, 0));
+
+        for (var k = 1; k <= 10; k++)
+        {
+            var radiusSquare = k * radius * k * radius;
+            pointGenerator
+                .Skip((k - 1) * 10)
+                .Take(10)
+                .All(p => p.X * p.X + p.Y * p.Y < radiusSquare)
+                .Should().BeTrue("Circle like shape should be generated");
+        }
+    }
 }

@@ -51,4 +51,23 @@ public class SquareArchimedesSpiralTest
             expectedPoint.Should().BeEquivalentTo(receivedPoint);
         }
     }
+    
+    [TestCase(1)]
+    [TestCase(10)]
+    [TestCase(100)]
+    public void SquareArchimedesSpiral_GenerateRectLikeShape(int step)
+    {
+        var squareSpiral = new SquareArchimedesSpiral(step);
+        var pointGenerator = squareSpiral.StartFrom(new Point(0, 0));
+
+        for (var k = 1; k <= 50; k++)
+        {
+            var side = k / 2 * step + step;
+            pointGenerator
+                .Skip((k - 1) * 5)
+                .Take(5)
+                .All(p => (-side <= p.X && p.X <= side) && (-side <= p.Y && p.Y <= side))
+                .Should().BeTrue("Square like shape should be generated");
+        }
+    }
 }
