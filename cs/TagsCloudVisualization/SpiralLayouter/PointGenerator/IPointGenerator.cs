@@ -1,9 +1,11 @@
-﻿namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
+﻿using System.Drawing;
 
-public interface IPointGenerator<T> : IEnumerable<T>, IEnumerator<T>
+namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
+
+public interface IPointGenerator
 {
     /*
-     * Marking interface for infinite enumerators
-     * That can be used as point generator
+     * Infinite point generator
      */
+    public IEnumerable<Point> StartFrom(Point startPoint);
 }

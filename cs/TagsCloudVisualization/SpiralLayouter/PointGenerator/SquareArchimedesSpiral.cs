@@ -3,52 +3,49 @@ using System.Drawing;
 
 namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
-public class SquareArchimedesSpiral : IPointGenerator<Point>
+public class SquareArchimedesSpiral : IPointGenerator
 {
     private int neededPoints = 1;
     private int pointsToPlace = 1;
+    private Point currentPoint = Point.Empty;
     private Direction direction = Direction.Up;
-    
-    public int Step { get; }
-    public Point Center { get; }
-    
-    object? IEnumerator.Current => Current;
-    public Point Current { get; private set; }
 
-    public SquareArchimedesSpiral(Point center, int step)
+    public int Step { get; }
+
+    public SquareArchimedesSpiral(int step)
     {
         if (step <= 0)
             throw new ArgumentException("Step should be positive number");
         
         Step = step;
-        Center = center;
-        Current = center;
     }
-
-    public IEnumerator<Point> GetEnumerator() => this;
-    IEnumerator IEnumerable.GetEnumerator() => this;
-
-    public bool MoveNext()
+    
+    public IEnumerable<Point> StartFrom(Point startPoint)
     {
-        pointsToPlace--;
-        Current += GetOffsetSize();
-        
-        if (pointsToPlace == 0)
+        SetStartState(startPoint);
+        while (true)
         {
-            direction = direction.AntiClockwiseRotate();
-            if (direction is Direction.Up or Direction.Down) neededPoints++;
-            pointsToPlace = neededPoints;
+            pointsToPlace--;
+            currentPoint += GetOffsetSize();
+            
+            if (pointsToPlace == 0)
+            {
+                direction = direction.AntiClockwiseRotate();
+                if (direction is Direction.Up or Direction.Down) neededPoints++;
+                pointsToPlace = neededPoints;
+            }
+            yield return currentPoint;
         }
-        return true;
     }
 
-    public void Reset()
+    private void SetStartState(Point startPoint)
     {
         neededPoints = 1;
-        Current = Center;
+        direction = Direction.Up;
+        currentPoint = startPoint;
         pointsToPlace = neededPoints;
     }
-
+    
     private Size GetOffsetSize() => direction switch
     {
         Direction.Up => new Size(0, Step),
@@ -57,13 +54,4 @@ public class SquareArchimedesSpiral : IPointGenerator<Point>
         Direction.Left => new Size(-Step, 0),
         _ => throw new ArgumentOutOfRangeException()
     };
-    
-    # region Dispose code
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-    protected virtual void Dispose(bool disposing) {}
-    # endregion
 }

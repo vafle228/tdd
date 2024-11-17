@@ -3,18 +3,15 @@ using System.Drawing;
 
 namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
-public class PolarArchimedesSpiral : IPointGenerator<Point>
+public class PolarArchimedesSpiral : IPointGenerator
 {
     private double currentAngle;
     
-    public Point Center { get; }
     public double Radius { get; }
     public double AngleOffset { get; }
+    
 
-    object? IEnumerator.Current => Current;
-    public Point Current { get; private set; }
-
-    public PolarArchimedesSpiral(Point center, double radius, double angleOffset)
+    public PolarArchimedesSpiral(double radius, double angleOffset)
     {
         if (radius <= 0 || angleOffset <= 0)
         {
@@ -22,42 +19,22 @@ public class PolarArchimedesSpiral : IPointGenerator<Point>
             throw new ArgumentException("Spiral params should be positive.", argName);
         }
         
-        Center = center;
-        Current = center;
-        
         Radius = radius;
         AngleOffset = angleOffset * Math.PI / 180;
     }
-    
-    public IEnumerator<Point> GetEnumerator() => this;
-    IEnumerator IEnumerable.GetEnumerator() => this;
 
-    public bool MoveNext()
+    public IEnumerable<Point> StartFrom(Point startPoint)
     {
-        currentAngle += AngleOffset;
-        var polarCoordinate = Radius / (2 * Math.PI) * currentAngle;
-        
-        var xOffset = (int)Math.Round(polarCoordinate * Math.Cos(currentAngle));
-        var yOffset = (int)Math.Round(polarCoordinate * Math.Sin(currentAngle));
-        
-        Current = Center + new Size(xOffset, yOffset);
-        
-        return true;
-    }
-
-    public void Reset()
-    {
-        Current = Center;
         currentAngle = 0;
+        while (true)
+        {
+            currentAngle += AngleOffset;
+            var polarCoordinate = Radius / (2 * Math.PI) * currentAngle;
+            
+            var xOffset = (int)Math.Round(polarCoordinate * Math.Cos(currentAngle));
+            var yOffset = (int)Math.Round(polarCoordinate * Math.Sin(currentAngle));
+            
+            yield return startPoint + new Size(xOffset, yOffset);
+        }
     }
-    
-
-    # region Dispose code
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-    protected virtual void Dispose(bool disposing) {}
-    # endregion
 }
