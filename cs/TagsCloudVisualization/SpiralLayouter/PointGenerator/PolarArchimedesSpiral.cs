@@ -5,8 +5,6 @@ namespace TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
 public class PolarArchimedesSpiral : IPointGenerator
 {
-    private double currentAngle;
-    
     public double Radius { get; }
     public double AngleOffset { get; }
     
@@ -25,16 +23,17 @@ public class PolarArchimedesSpiral : IPointGenerator
 
     public IEnumerable<Point> StartFrom(Point startPoint)
     {
-        currentAngle = 0;
+        var currentAngle = 0.0;
         while (true)
         {
-            currentAngle += AngleOffset;
             var polarCoordinate = Radius / (2 * Math.PI) * currentAngle;
             
             var xOffset = (int)Math.Round(polarCoordinate * Math.Cos(currentAngle));
             var yOffset = (int)Math.Round(polarCoordinate * Math.Sin(currentAngle));
             
             yield return startPoint + new Size(xOffset, yOffset);
+            
+            currentAngle += AngleOffset;
         }
     }
 }

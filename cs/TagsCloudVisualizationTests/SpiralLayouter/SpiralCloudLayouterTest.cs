@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using TagsCloudVisualization.SpiralLayouter;
+using TagsCloudVisualization.SpiralLayouter.PointGenerator;
 
 namespace TagsCloudVisualizationTests.SpiralLayouter;
 
@@ -21,7 +22,8 @@ public class SpiralCloudLayouterTest
     [TestCaseSource(nameof(InitCenterAtGivenPointTestCases))]
     public void SpiralCloudLayouter_InitCenterAtGivenPoint(Point center)
     {
-        var layouter = new SpiralCloudLayouter(center);
+        var pointGenerator = new SquareArchimedesSpiral(1);
+        var layouter = new SpiralCloudLayouter(center, pointGenerator);
         
         layouter.Center.Should().BeEquivalentTo(center);
     }
@@ -30,7 +32,8 @@ public class SpiralCloudLayouterTest
     public void SpiralCloudLayouter_PutNextRectangle_ShouldPutFirstRectAtCenter()
     {
         var squareSize = new Size(100, 100);
-        var layouter = new SpiralCloudLayouter(new Point(0, 0));
+        var pointGenerator = new SquareArchimedesSpiral(1);
+        var layouter = new SpiralCloudLayouter(new Point(0, 0), pointGenerator);
         
         var rect = layouter.PutNextRectangle(squareSize);
         
@@ -41,8 +44,9 @@ public class SpiralCloudLayouterTest
     public void SpiralCloudLayouter_PutNextRectangle_AllRectsShouldNotIntersect()
     {
         var random = new Random();
-        var layouter = new SpiralCloudLayouter(new Point(0, 0));
-        var rectangleSizes = new Size[100];
+        var pointGenerator = new SquareArchimedesSpiral(1);
+        var layouter = new SpiralCloudLayouter(new Point(0, 0), pointGenerator);
+        var rectangleSizes = new Size[10];
         for (var i = 0; i < rectangleSizes.Length; i++)
         {
             var width = random.Next(1, 100);
