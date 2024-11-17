@@ -23,7 +23,7 @@ public class SpiralCloudLayouter : ICloudLayouter
     {
         Rectangle placedRect;
         try
-        { 
+        {
             placedRect = pointGenerator.StartFrom(Center)
                 .Except(placedPoints)
                 .Select(p => CreateRectangle(p, rectangleSize))
