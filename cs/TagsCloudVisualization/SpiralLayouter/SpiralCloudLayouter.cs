@@ -5,35 +5,44 @@ namespace TagsCloudVisualization.SpiralLayouter;
 
 public class SpiralCloudLayouter : ICloudLayouter
 {
+    private List<Point> placedPoints;
+    private IPointGenerator pointGenerator;
     private List<Rectangle> placedRectangles;
-    private IPointGenerator<Point> pointGenerator;
-    
-    public Point Center { get; private set; }
 
-    public SpiralCloudLayouter(Point center)
+    public Point Center { get; }
+
+    public SpiralCloudLayouter(Point center, IPointGenerator pointGenerator)
     {
         Center = center;
+        placedPoints = [];
         placedRectangles = [];
-        pointGenerator = new PolarArchimedesSpiral(center, 3, 0.5);
+        this.pointGenerator = pointGenerator;
     }
 
     public Rectangle PutNextRectangle(Size rectangleSize)
     {
-        using var spiralEnumerator = pointGenerator.GetEnumerator();
-        do
+        Rectangle placedRect;
+        try
+        { 
+            placedRect = pointGenerator.StartFrom(Center)
+                .Except(placedPoints)
+                .Select(p => CreateRectangle(p, rectangleSize))
+                .First(r => !placedRectangles.Any(r.IntersectsWith));
+        }
+        catch (InvalidOperationException)
         {
-            var rectangleCenter = spiralEnumerator.Current;
-            var rectangleUpperLeft = rectangleCenter - rectangleSize / 2;
-            var rect = new Rectangle(rectangleUpperLeft, rectangleSize);
+            throw new ArgumentException("There are no more points in generator");
+        }
 
-            if (!placedRectangles.Any(r => r.IntersectsWith(rect)))
-            {
-                placedRectangles.Add(rect);
-                pointGenerator.Reset();
-                return rect;
-            }
-        } while(spiralEnumerator.MoveNext());
+        placedRectangles.Add(placedRect);
+        placedPoints.Add(placedRect.Location - placedRect.Size / 2);
         
-        return Rectangle.Empty;  // Never happens because squareFibonacciSpiral infinite
+        return placedRect;
+    }
+
+    private Rectangle CreateRectangle(Point center, Size rectangleSize)
+    {
+        var rectangleUpperLeft = center - rectangleSize / 2;
+        return new Rectangle(rectangleUpperLeft, rectangleSize);
     }
 }
