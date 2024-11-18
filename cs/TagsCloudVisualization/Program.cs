@@ -30,7 +30,7 @@ internal class Program
         var imageSize = new Size(IMAGE_WIDTH, IMAGE_HEIGHT);
         
         var bitmap = BitmapGenerator.GenerateWindowsBitmap(spiralLayouter, imageSize, rectangleSizes);
-        Directory.CreateDirectory(MEDIA_ROOT);
-        bitmap.Save(Path.Combine(MEDIA_ROOT, $"{RECTANGLE_COUNT}.jpeg"), ImageFormat.Jpeg);
+        var saver = new BitmapSaver(MEDIA_ROOT);
+        saver.SaveBitmap(bitmap, $"{RECTANGLE_COUNT}.jpeg");
     }
 }
